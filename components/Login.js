@@ -10,30 +10,33 @@ import {
   Alert ,
 } from "react-native";
 import axios from 'axios';
+import {useUser} from "../context/userContext";
 
 function Login({navigation}) {
+  const { login } = useUser();
   const [email, setEmail] = useState("");
-  const [fullname, setFullname] = useState("");
+  // const [fullname, setFullname] = useState("");
   const [password, setPassword] = useState("");
-  const apiUri = 'http://192.168.11.156:8000';
+  const apiUri = 'http://192.168.34.156:8000';
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("req");
-      console.log(email+ "  "+ password)
-      const res = await axios.post(apiUri+"/users/login", {
-        
+      // console.log("req");
+      // console.log(email+ "  "+ password)
+      const user = await axios.post(apiUri+"/users/login", {
         email,
         password,
       });
-      // console.log(res)
-      if (res.status === 200) {
+      login(user.data.data.user)
+      
+      if (user.status === 200) {
         Alert.alert('Success', 'Login successful');
-        navigation.navigate('Home');
+        navigation.navigate('Home',{user});
       }
     } catch (error) {
       console.log(error);
     }
+    
   };
   
   const bgImage = {
@@ -59,7 +62,7 @@ function Login({navigation}) {
             backgroundColor: "transparent",
           }}
         >
-          <Text style={{ fontSize: 22, marginHorizontal: 16, fontWeight: "bold", paddingTop: 14 }}>User Name</Text>
+          <Text style={{ fontSize: 22, marginHorizontal: 16, fontWeight: "bold", paddingTop: 14 }}>email</Text>
           <TextInput
             style={styles.inputBox}
             onChangeText={setEmail}
@@ -78,6 +81,7 @@ function Login({navigation}) {
           <TextInput
             style={styles.inputBox}
             onChangeText={setPassword}
+            secureTextEntry
             value={password}
             placeholder="Password"
             
@@ -101,7 +105,7 @@ function Login({navigation}) {
           />
           </View>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.link}>Don't have an account? Register</Text>
+        <Text style={{margin: 8, fontSize: 20, color: 'blue'}}>Don't have an account? Register</Text>
       </TouchableOpacity>
         </View>
       </View>

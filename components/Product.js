@@ -1,7 +1,19 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Text, View, StyleSheet } from "react-native";
 
-function Product() {
+function Product({route}) {
+  const apiUri = 'http://192.168.34.156:8000';
+  
+  useEffect(()=> {
+    console.log(route)
+    // user=route.params.user
+  },[])
+  
+  const [username,setUsername] = useState("")
+  // const { name } = route.params;
+  // console.log(user)
+
+  // setUsername(user)
   const fetchData = async () => {
     const [data, setData] = useState([]);
 
@@ -9,20 +21,13 @@ function Product() {
       fetchData();
     }, []);
     try {
-      const response = await fetch("https://fakestoreapi.com/products");
+      const response = await fetch(apiUri+"/users/products/food");
       const result = await response.json();
       
       setData(result);
     } catch (error) {
       console.error(error);
     }
-    const renderItem = ({ item }) => (
-      <View style={styles.item}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.body}>{item.price}</Text>
-      </View>
-    );
-    console.log(result);
     return (
       <View style={{width: '100%', height:'100%'}}>
         <View style={styles.container}>
