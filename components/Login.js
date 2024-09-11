@@ -13,22 +13,21 @@ import axios from 'axios';
 import {useUser} from "../context/userContext";
 
 function Login({navigation}) {
-  const { login } = useUser();
+  const { login,access } = useUser();
   const [email, setEmail] = useState("");
   // const [fullname, setFullname] = useState("");
   const [password, setPassword] = useState("");
-  const apiUri = 'http://192.168.34.156:8000';
+  const apiUri = 'http://192.168.58.156:8000';
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // console.log("req");
-      // console.log(email+ "  "+ password)
+      console.log("req");
       const user = await axios.post(apiUri+"/users/login", {
         email,
         password,
       });
       login(user.data.data.user)
-      
+      access(user.data.data.accessToken)
       if (user.status === 200) {
         Alert.alert('Success', 'Login successful');
         navigation.navigate('Home',{user});

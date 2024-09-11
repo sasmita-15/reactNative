@@ -16,7 +16,7 @@ export default function Book() {
   const {user} = useUser();
   const accessToken=user.accessToken;
   const [products, setProducts] = useState([]);
-  const apiUri = "http://192.168.34.156:8000";
+  const apiUri = "http://192.168.58.156:8000";
 
   useEffect(() => {
     const fetchProducts = async () => {

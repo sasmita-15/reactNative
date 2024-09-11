@@ -5,20 +5,22 @@ import {
   FlatList,
   StyleSheet,
   Image,
-  TouchableOpacity,
   TouchableHighlight,
+  Button
 } from "react-native";
 import axios from "axios";
 import { useUser } from "../context/userContext";
 
-export default function Food({ route }) {
+export default function Food() {
   const [isBuyNowHovered, setIsBuyNowHovered] = useState(false);
   const [isAddToCartHovered, setIsAddToCartHovered] = useState(false);
   const { user } = useUser();
+  // console.log(user.user.username);
   const accessToken = user.accessToken;
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const apiUri = "http://192.168.34.156:8000";
+  const [isGridView, setIsGridView] = useState(false); // State to toggle view type
+  const apiUri = "http://192.168.58.156:8000";
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -53,7 +55,7 @@ export default function Food({ route }) {
   };
 
   const renderItem = ({ item }) => (
-    <View style={styles.productContainer}>
+    <View style={[styles.productContainer, isGridView && styles.gridProductContainer]}>
       <View>
         <Image source={{ uri: item.productImage }} style={styles.productImage} />
       </View>
@@ -96,10 +98,16 @@ export default function Food({ route }) {
 
   return (
     <View style={styles.container}>
+      <Button
+        title={`Switch to ${isGridView ? "List" : "Grid"} View`}
+        onPress={() => setIsGridView(!isGridView)}
+      />
       <FlatList
         data={products}
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
+        numColumns={isGridView ? 2 : 1} // Toggle number of columns based on view type
+        key={isGridView ? 'G' : 'L'} // Force re-render when switching between grid and list
         initialNumToRender={15} // Render initial 15 items
         maxToRenderPerBatch={15} // Render 15 items per batch
         windowSize={10} // Maintain 10 items in memory
@@ -127,6 +135,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     backgroundColor: "#f9f9f9",
     borderRadius: 8,
+  },
+  gridProductContainer: {
+    flex: 0.5,
+    margin: 4,
   },
   productImage: {
     width: "100%",

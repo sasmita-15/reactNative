@@ -2,10 +2,10 @@ import React, {useEffect, useState} from "react";
 import { Text, View, StyleSheet } from "react-native";
 
 function Product({route}) {
-  const apiUri = 'http://192.168.34.156:8000';
+  const apiUri = 'http://192.168.58.156:8000';
   
   useEffect(()=> {
-    console.log(route)
+    // console.log(route)
     // user=route.params.user
   },[])
   

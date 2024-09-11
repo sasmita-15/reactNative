@@ -11,12 +11,14 @@ import {
 import axios from "axios";
 import { useUser } from "../context/userContext";
 
-const CartPage = ({ route }) => {
-  const {user} =useUser();
-  const accessToken = user.accessToken;
-  const userId = user._id;
+const CartPage = () => {
+
+  const {user,accessToken} =useUser();
+  // console.log(user)
+  
+  const userId = user.user._id;
   const [products, setProducts] = useState([]);
-  const apiUri = "http://192.168.34.156:8000";
+  const apiUri = "http://192.168.58.156:8000";
   useEffect(() => {
     
     async function fetchProducts() {
@@ -31,7 +33,7 @@ const CartPage = ({ route }) => {
       }
     }
     fetchProducts();
-  }, [route,products]);
+  }, [products]);
   const handleRmvToCart = async (product) => {
     //   console.log(`Add to Cart  for product:${product._id} and accessToken: ${accessToken}` );
     await axios.post(apiUri + `/users/remove-to-cart`, {

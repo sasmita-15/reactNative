@@ -18,7 +18,7 @@ const RegisterPage = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [address, setAddress] = useState("");
-  const apiUri = 'http://192.168.34.156:8000';
+  const apiUri = 'http://192.168.58.156:8000';
 
   const handleRegister = async (e) => {
     e.preventDefault();
